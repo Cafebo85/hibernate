@@ -32,6 +32,11 @@ public class WatchedListHibernate implements WatchedListDAO {
 	public ArrayList<Watchedlist> getWatchedlist() {
 		return adapter.readAll();
 	}
-
+	
+	@Override
+	public ArrayList<Watchedlist> getAllForUser(String userId) {
+		String sql = "From Watchedlist where userId LIKE '" + userId + "'";
+		return adapter.getQuery(sql);
+	}
 	
 }
