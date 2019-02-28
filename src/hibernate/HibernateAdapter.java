@@ -8,11 +8,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import connections.SessionFactoryUtil;
-/**Clase genèrica amb la que podem implementar el crud amb hibernate.
+/**Clase genÃ¨rica amb la que podem implementar el crud amb hibernate.
 * Fent una instancia d'un objecte d'aquesta classe en cadascuna de les classes on volguem implementar
 * el crud. El constructor rep un Object String que utilitzarem per fer la query que ens retorna tots els
-* registres d'una taula. En els mètodes en els que necessitem un id, utiliztzem un objexte Serializable, que és el que
-* demana el mètode del hibernate
+* registres d'una taula. En els mÃ¨todes en els que necessitem un id, utiliztzem un objexte Serializable, que Ã©s el que
+* demana el mÃ¨tode del hibernate
 */ 
 public class HibernateAdapter<T> {
 
@@ -107,6 +107,19 @@ public class HibernateAdapter<T> {
 		return objects;
 	}
 
-	
+	public ArrayList<T> getQuery(String string){
+		openSession();
+		ArrayList<T> objects = new ArrayList<T>();
+		try {
+			objects  = (ArrayList<T>) session.createQuery(string).list();
+			tx.commit();
+		}catch(HibernateException e) {
+			if(null != tx) tx.rollback();
+			e.printStackTrace();
+		}finally {
+			session.close();
+		}
+		return objects;
+	}
 
 }
